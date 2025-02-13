@@ -3,11 +3,37 @@
 import ActionCard from "@/components/ActionCard";
 import { QUICK_ACTIONS } from "@/constants";
 import { useUserRole } from "@/hooks/useUserRole";
+import { useQuery } from "convex/react";
+import { useState } from "react";
+import { api } from "../../../../convex/_generated/api";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const { isInterviewer } = useUserRole();
+  const router = useRouter();
 
-  const handleQuickAction = (title:string)=>{}
+  const { isInterviewer, isLoading } = useUserRole();
+
+  const interviews = useQuery(api.interviews.getMyInterviews);
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState<"start" | "join">();
+
+  const handleQuickAction = (title: string) => {
+    switch (title) {
+      case "New Call":
+        setModalType("start");
+        setShowModal(true);
+        break;
+      case "Join Interview":
+        setModalType("join");
+        setShowModal(true);
+        break;
+      default:
+        router.push(`/${title.toLowerCase()}`);
+    }
+  };
+
+  if (isLoading) return <p>loading...</p>;
 
   return (
     <div className="container max-w-7xl mx-auto p-6">
@@ -25,10 +51,14 @@ export default function Home() {
       {isInterviewer ? (
         <>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {QUICK_ACTIONS.map((action, index)=>{
-              return(
-                <ActionCard key={index} action={action} onClick={()=>handleQuickAction(action.title)}/>
-              )
+            {QUICK_ACTIONS.map((action, index) => {
+              return (
+                <ActionCard
+                  key={index}
+                  action={action}
+                  onClick={() => handleQuickAction(action.title)}
+                />
+              );
             })}
           </div>
         </>
