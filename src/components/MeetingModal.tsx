@@ -18,7 +18,7 @@ const MeetingModal = ({
 }: MeetingModalProps) => {
   const [meetingUrl, setMeetingUrl] = useState<string>("");
 
-  const createMeeting = () => {};
+  const createInstantMeeting = () => {};
   const joinMeeting = () => {};
 
   const handleStart = () => {};
