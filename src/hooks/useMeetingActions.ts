@@ -28,6 +28,14 @@ const useMeetingActions = () => {
       toast.error("Failed to create meeting");
     }
   };
+
+  const joinMeeting = async (callId: string) => {
+    if (!client)
+      return toast.error("Failed to join meeting. Please try again.");
+    router.push(`/meeting/${callId}`);
+  };
+
+  return { createInstantMeeting, joinMeeting };
 };
 
 export default useMeetingActions;
