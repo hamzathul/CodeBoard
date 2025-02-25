@@ -1,9 +1,30 @@
-import React from 'react'
+import { useCall } from "@stream-io/video-react-sdk";
+import React, { useEffect, useState } from "react";
 
-const MeetingSetup = () => {
-  return (
-    <div>MeetingSetup</div>
-  )
-}
+const MeetingSetup = ({ onSetupComplete }: { onSetupComplete: () => void }) => {
+  const [isCameraDisabled, setIsCamerDisabled] = useState<boolean>(true);
+  const [isMicDisabled, setIsMicDisabled] = useState<boolean>(false);
 
-export default MeetingSetup
+  const call = useCall();
+
+  if (!call) return null;
+
+  useEffect(() => {
+    if (isCameraDisabled) call.camera.disable();
+    else call.camera.enable();
+  }, [isCameraDisabled, call.camera]);
+
+  useEffect(() => {
+    if (isMicDisabled) call.microphone.disable();
+    else call.microphone.enable();
+  }, [isMicDisabled, call.microphone]);
+
+  const handleJoin = async()=>{
+    await call.join()
+    onSetupComplete()
+  }
+
+  return <div>MeetingSetup</div>;
+};
+
+export default MeetingSetup;
