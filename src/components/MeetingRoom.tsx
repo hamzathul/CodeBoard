@@ -39,7 +39,7 @@ const MeetingRoom = () => {
       <ResizablePanelGroup direction="horizontal">
         <ResizablePanel
           defaultSize={35}
-          minSize={25}
+          minSize={28}
           maxSize={100}
           className="relative"
         >
@@ -49,7 +49,7 @@ const MeetingRoom = () => {
 
             {/* PARTICIPANTS LIST OVERLAY  */}
             {showParticipants && (
-              <div className="absolute right-0 top-0 h-full w-[300px] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+              <div className="absolute right-0 top-0 h-full w-[300px] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 p-3">
                 <CallParticipantsList
                   onClose={() => setShowParticipants(false)}
                 />
@@ -69,11 +69,17 @@ const MeetingRoom = () => {
                         <LayoutListIcon className="size-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuItem onClick={() => setLayout("grid")}>
+                    <DropdownMenuContent className="cursor-pointer">
+                      <DropdownMenuItem
+                        onClick={() => setLayout("grid")}
+                        className="hover:bg-primary p-1"
+                      >
                         Grid View
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setLayout("speaker")}>
+                      <DropdownMenuItem
+                        onClick={() => setLayout("speaker")}
+                        className="hover:bg-primary p-1"
+                      >
                         Speaker View
                       </DropdownMenuItem>
                     </DropdownMenuContent>
