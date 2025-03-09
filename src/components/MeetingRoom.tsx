@@ -17,6 +17,7 @@ import {
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
+import EndCallButton from "./EndCallButton";
 
 const MeetingRoom = () => {
   const router = useRouter();
@@ -92,7 +93,7 @@ const MeetingRoom = () => {
                   >
                     <UsersIcon className="size-4" />
                   </Button>
-                  <button>end call button</button>
+                  <EndCallButton/>
                 </div>
               </div>
             </div>
