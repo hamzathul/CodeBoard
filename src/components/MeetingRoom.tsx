@@ -18,6 +18,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "./ui/dro
 import { Button } from "./ui/button";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import EndCallButton from "./EndCallButton";
+import CodeEditor from "./CodeEditor";
 
 const MeetingRoom = () => {
   const router = useRouter();
@@ -101,7 +102,7 @@ const MeetingRoom = () => {
         </ResizablePanel>
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={65} minSize={25}>
-          <h1>Code editor will go here</h1>
+          <CodeEditor/>
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>
