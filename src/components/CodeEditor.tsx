@@ -1,10 +1,21 @@
 import { CODING_QUESTIONS, LANGUAGES } from "@/constants";
 import React, { useState } from "react";
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "./ui/resizable";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "./ui/resizable";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { AlertCircleIcon, BookIcon, LightbulbIcon } from "lucide-react";
+import Editor from "@monaco-editor/react";
 
 function CodeEditor() {
   const [selectedQuestion, setSelectedQuestion] = useState(CODING_QUESTIONS[0]);
@@ -166,14 +177,35 @@ function CodeEditor() {
               )}
             </div>
           </div>
-          <ScrollBar/>
+          <ScrollBar />
         </ScrollArea>
       </ResizablePanel>
 
-      <ResizableHandle withHandle/>
+      <ResizableHandle withHandle />
       {/* CODE EDITOR  */}
 
-      <ResizablePanel></ResizablePanel>
+      <ResizablePanel defaultSize={50} maxSize={100}>
+        <div className="h-full relative">
+          <Editor
+            height={"100%"}
+            defaultLanguage={language}
+            language={language}
+            theme="vs-dark"
+            value={code}
+            onChange={(value) => setCode(value || "")}
+            options={{
+              minimap: { enabled: false },
+              fontSize: 15,
+              lineNumbers: "on",
+              scrollBeyondLastLine: false,
+              automaticLayout: true,
+              padding: { top: 16, bottom: 16 },
+              wordWrap: "on",
+              wrappingIndent: "indent",
+            }}
+          />
+        </div>
+      </ResizablePanel>
     </ResizablePanelGroup>
   );
 }
