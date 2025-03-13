@@ -1,16 +1,18 @@
 import { CallRecording } from "@stream-io/video-react-sdk";
-import React from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { format } from "date-fns";
 import { calculateRecordingDuration } from "@/lib/utils";
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
-import { CalendarIcon, ClockIcon, CopyIcon, PlayIcon } from "lucide-react";
+import { CalendarIcon, ClipboardCheckIcon, ClockIcon, CopyIcon, PlayIcon } from "lucide-react";
 import { Button } from "./ui/button";
 
 function RecordingCard({ recording }: { recording: CallRecording }) {
+  const [isCopied, setIsCopied] = useState<boolean>(false);
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(recording.url);
+      setIsCopied(true);
       toast.success("Recording link copied to clipboard");
     } catch (error) {
       toast.error("Failed to copy the link to clipboard");
@@ -56,13 +58,15 @@ function RecordingCard({ recording }: { recording: CallRecording }) {
         </div>
       </CardContent>
       <CardFooter className="gap-2">
-        <Button className="flex-1" onClick={()=>window.open(recording.url, "_blank")}>
-            <PlayIcon className="size-4 mr-2"/> Play Recording
+        <Button
+          className="flex-1"
+          onClick={() => window.open(recording.url, "_blank")}
+        >
+          <PlayIcon className="size-4 mr-2" /> Play Recording
         </Button>
         <Button variant="secondary" onClick={handleCopyLink}>
-            <CopyIcon className="size-4"/>
+          {isCopied?(<ClipboardCheckIcon className="size-4"/>):(<CopyIcon className="size-4" />)}
         </Button>
-
       </CardFooter>
     </Card>
   );

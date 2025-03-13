@@ -9,11 +9,13 @@ import React, { useEffect, useState } from "react";
 const Recordings = () => {
   const { calls, isLoading } = useGetCalls();
   const [recordings, setRecordings] = useState<CallRecording[]>([]);
+  const [isLoadingRecordings, setIsLoadingRecordings] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchRecordings = async () => {
       if (!calls) return;
       try {
+        setIsLoadingRecordings(true)
         const callData = await Promise.all(
           calls.map((call) => call.queryRecordings())
         );
@@ -21,12 +23,14 @@ const Recordings = () => {
         setRecordings(allRecordings);
       } catch (error) {
         console.log("Error fetching recordings:", error);
+      } finally{
+        setIsLoadingRecordings(false)
       }
     };
     fetchRecordings();
   }, [calls]);
 
-  if (isLoading) return <LoaderUI />;
+  if (isLoading || isLoadingRecordings) return <LoaderUI />;
   return (
     <div className="container max-w-7xl mx-auto p-6">
       {/* HEADER SECTION  */}
@@ -37,20 +41,20 @@ const Recordings = () => {
       </p>
 
       {/* RECORDINGS GRID  */}
-      <ScrollArea className="h-[calc(100vh-12rem)] mt-3">
-        {recordings.length>0?(
+      <ScrollArea className="h-[calc(100vh-12rem)] mt-3 pr-3">
+        {recordings.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 pb-6">
-            {recordings.map((r)=>(
-              <RecordingCard key={r.end_time} recording={r}/>
+            {recordings.map((r) => (
+              <RecordingCard key={r.end_time} recording={r} />
             ))}
           </div>
-        ):(
+        ) : (
           <div className="flex flex-col items-center justify-center h-[400px] gap-4">
-            <p className="text-xl font-medium text-muted-foreground">No recordings available</p>
-
+            <p className="text-xl font-medium text-muted-foreground">
+              No recordings available
+            </p>
           </div>
         )}
-
       </ScrollArea>
     </div>
   );

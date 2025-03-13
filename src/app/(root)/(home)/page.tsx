@@ -64,7 +64,7 @@ export default function Home() {
           </div>
           <MeetingModal
             isOpen={showModal}
-            onClose={()=>()=>setShowModal(false)}
+            onClose={()=>setShowModal(false)}
             title={modalType === "join"? "Join Meeting" :"Start Meeting"}
             isJoinMeeting={modalType==="join"}
           />
